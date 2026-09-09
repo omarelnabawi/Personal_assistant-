@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     Model_TOP_P: float 
     Model_FREQUENCY_PENALTY: float 
     Model_PRESENCE_PENALTY: float 
+    MAX_MESSAGES: int
+    KEEP_RECENT: int
+    local_user: str 
 
     model_config = SettingsConfigDict(env_file=".env",ignore_extra=True)
 

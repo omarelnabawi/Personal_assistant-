@@ -1,0 +1,1 @@
+from .personal_info_sehema import PersonalInfo

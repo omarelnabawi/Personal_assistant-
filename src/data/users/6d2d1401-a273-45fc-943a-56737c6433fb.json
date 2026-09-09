@@ -1,0 +1,27 @@
+{
+  "user_id": "6d2d1401-a273-45fc-943a-56737c6433fb",
+  "created_at": "2026-09-09T04:27:26.860636+00:00",
+  "last_updated": "2026-09-09T04:49:11.716607+00:00",
+  "conversation_count": 6,
+  "personal_info": {
+    "name": "Omar Elnabawi",
+    "birthday": "2000-08-20",
+    "additional_notes": {
+      "age": "26",
+      "career_goal": "AI Engineering",
+      "education": "Bachelor of Science in Communication and Electronics Engineering, graduated Sep 2023",
+      "location": "Quwesna, El Menofia, Egypt",
+      "military_service": "Reserved officer (Oct 2024 - Oct 2026)",
+      "skills": "Python, SQL, Machine Learning, Data Analysis, GAN AI, Automation with n8n, Power BI"
+    },
+    "education": "Bachelor of Science in Communication and Electronics Engineering, graduated Sep 2023",
+    "graduation_date": "2023-09",
+    "military_service": {
+      "start": "Oct 2024",
+      "end": "Oct 2026"
+    },
+    "summary": "My name is Omar Elnabawi. I am 26 years old and graduated in September 2023 with a Bachelor of Science in Communication and Electronics Engineering. I am a reserved officer in the military from October 2024 to October 2026. I am currently working as an AI Engineer at IBM and pursuing a career in AI Engineering. I have skills in Python, SQL, Machine Learning, Data Analysis, GAN AI, Automation with n8n, and Power BI.",
+    "current_role": "AI Engineer at IBM"
+  },
+  "name": "who am i"
+}

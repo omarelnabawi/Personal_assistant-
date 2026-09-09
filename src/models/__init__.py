@@ -1,1 +1,1 @@
-from .system_prompt import SystemPrompt
+from .schema import PersonalInfo

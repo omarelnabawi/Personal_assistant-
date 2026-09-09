@@ -1,9 +1,60 @@
-from helper import get_settings
-from models import SystemPrompt
-from controllers.model_router import get_working_chat
-settings = get_settings()
-prompt = SystemPrompt(style="concise", role="geography expert").get_prompt()
-formatted_prompt = prompt.format(user_input="عايزك تشرحلى ايه الاساس العلمى ورا RNN باختصار وبدون تعقيد")
+from curses.ascii import US
 
-response = get_working_chat(settings, formatted_prompt)
-print(response.content)
+from langchain_core.messages import HumanMessage,SystemMessage
+import json
+
+#-------------------------------------
+
+from helper import get_settings
+from agent import build_graph
+from prompt import SystemPrompt
+from memory import get_user_info,extract_and_merge ,get_or_create_user_id,get_or_ask_name
+
+#------------------------------------
+settings = get_settings()
+graph = build_graph(settings)
+sys_prompt=SystemPrompt(role="personal assistant", style="direct and clear")
+prompt_builder = sys_prompt.get_prompt()
+LANGUAGE_RULE=sys_prompt.language_prompt()
+
+#------------------------------------
+
+USER_ID = get_or_create_user_id()   # بدل الـ "omar_test" الثابتة
+#USER_ID = settings.local_user
+USER_NAME=get_or_ask_name(USER_ID)
+state = {"messages": [LANGUAGE_RULE]}
+
+#------------------------------------
+
+record = get_user_info(USER_ID)
+personal_info = record.get("personal_info", {})
+
+if personal_info:
+    context_message = SystemMessage(content=f"""
+Known information about the user from previous conversations (use this to answer accurately, don't say you're unsure if the info is here):
+{json.dumps(personal_info, ensure_ascii=False, indent=2)}
+""")
+    state["messages"].append(context_message)
+else:
+    state = {"messages": []}
+
+#-------------------------------------
+
+
+def ask(question: str):
+    global state
+    formatted = prompt_builder.format(user_input=question)
+    state["messages"].append(HumanMessage(content=formatted))
+    state = graph.invoke(state)
+    return state["messages"][-1].content
+
+
+Q = input(f"Enter is your question {USER_NAME} : ")
+while Q != "exit":
+    answer = ask(Q)
+    print("Answer:", answer)
+    Q = input("Enter your question: ")
+
+print("جاري حفظ معلوماتك...")
+updated_info = extract_and_merge(USER_ID, state["messages"], settings)
+print("تم الحفظ:", updated_info)
