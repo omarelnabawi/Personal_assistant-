@@ -144,10 +144,6 @@ rabbitmq/
 rabbitmq-data/
 
 # user data 
-data/*
-!data/.gitkeep
-!data/users/
-!data/users/.gitkeep
 src/data/*
 # ActiveMQ
 activemq-data/
