@@ -19,6 +19,7 @@ def get_or_create_user_id() -> str:
         with open(CONFIG_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
         if "user_id" in data:
+            #print("user_id: ",data["user_id"])
             return data["user_id"]
 
     new_id = str(uuid.uuid4())

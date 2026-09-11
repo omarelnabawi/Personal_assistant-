@@ -20,7 +20,9 @@ def get_user_info(user_id: str) -> dict:
             "personal_info": {},
         }
     with open(file_path, "r", encoding="utf-8") as f:
+        #print(json.load(f))
         return json.load(f)
+    
 
 def save_user_info(user_id: str, full_record: dict):
     DATA_DIR.mkdir(parents=True, exist_ok=True)

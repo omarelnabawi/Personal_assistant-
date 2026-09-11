@@ -2,14 +2,14 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.messages import SystemMessage
 
 class SystemPrompt:
-    def __init__(self, style: str, role: str):
+    def __init__(self, style: str):
         self.style = style
-        self.role = role
+        
 
     def get_prompt(self) -> PromptTemplate:
         prompt_temp=PromptTemplate(
             input_variables=["user_input"],
-            template=f"""You are {self.role}, a personal voice assistant. Your answers will be spoken aloud, so:
+            template=f"""You are a personal voice assistant. Your answers will be spoken aloud, so:
 
                     - Answer in {self.style} — get straight to the point, no filler, no long intros or closing summaries.
                     - Never use tables, bullet lists, markdown, or headers — this is spoken output, not text on a screen.

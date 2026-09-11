@@ -13,7 +13,7 @@ from memory import get_user_info,extract_and_merge ,get_or_create_user_id,get_or
 #------------------------------------
 settings = get_settings()
 graph = build_graph(settings)
-sys_prompt=SystemPrompt(role="personal assistant", style="direct and clear")
+sys_prompt=SystemPrompt(style="direct and clear")
 prompt_builder = sys_prompt.get_prompt()
 LANGUAGE_RULE=sys_prompt.language_prompt()
 
@@ -35,8 +35,10 @@ Known information about the user from previous conversations (use this to answer
 {json.dumps(personal_info, ensure_ascii=False, indent=2)}
 """)
     state["messages"].append(context_message)
+    print("personal info :\n", personal_info)
 else:
     state = {"messages": []}
+    print("thier is no personal_info")
 
 #-------------------------------------
 
@@ -49,7 +51,7 @@ def ask(question: str):
     return state["messages"][-1].content
 
 
-Q = input(f"Enter is your question {USER_NAME} : ")
+Q = input(f"Enter is your question  : ")
 while Q != "exit":
     answer = ask(Q)
     print("Answer:", answer)

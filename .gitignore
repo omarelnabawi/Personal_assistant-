@@ -148,7 +148,7 @@ data/*
 !data/.gitkeep
 !data/users/
 !data/users/.gitkeep
-
+src/data/*
 # ActiveMQ
 activemq-data/
 
