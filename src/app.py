@@ -5,7 +5,7 @@ import json
 
 #-------------------------------------
 
-from helper import get_settings
+from config import get_settings
 from agent import build_graph
 from prompt import SystemPrompt
 from memory import get_user_info,extract_and_merge ,get_or_create_user_id,get_or_ask_name
