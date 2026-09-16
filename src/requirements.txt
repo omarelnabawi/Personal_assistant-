@@ -5,3 +5,4 @@ langchain_groq==1.1.3
 langgraph==1.2.11
 pydantic==2.13.5
 pydantic_settings==2.15.0
+langchain-tavily==0.2.14
