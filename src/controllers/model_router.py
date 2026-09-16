@@ -2,7 +2,7 @@ from langchain_groq import ChatGroq
 from groq import BadRequestError, RateLimitError, APIError
 from langchain_google_genai import ChatGoogleGenerativeAI
 #---------------------------------
-from helper import get_settings
+from config import get_settings
 #---------------------------------
 settings = get_settings()
 FALLBACK_MODELS = settings.fallback_models_list
