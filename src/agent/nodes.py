@@ -4,12 +4,12 @@ from langchain_core.messages import SystemMessage, RemoveMessage,HumanMessage
 
 from agent import AgentState
 from controllers import get_working_chat
-from helper import get_settings
+# from helper import get_settings
 
 #--------------
-settings = get_settings()
-MAX_MESSAGES = settings.MAX_MESSAGES   # الحد اللي بعده نلخّص
-KEEP_RECENT = settings.KEEP_RECENT    # عدد الرسائل الحديثة اللي هتفضل كاملة
+# settings = get_settings()
+# MAX_MESSAGES = settings.MAX_MESSAGES   # الحد اللي بعده نلخّص
+# KEEP_RECENT = settings.KEEP_RECENT    # عدد الرسائل الحديثة اللي هتفضل كاملة
 
 #--------------
 
@@ -44,7 +44,7 @@ def summarize_if_needed(state: AgentState, settings) -> AgentState:
     # System Message الأصلية (معلومات المستخدم) فضلت زي ما هي، متتلخصش أبدًا
     return {"messages": delete_messages + [summary_message]}
 
-def call_model(state: AgentState, settings) -> AgentState:
+def call_model(state: AgentState, settings,tools) -> AgentState:
     messages = state["messages"]
-    response = get_working_chat(settings, messages)
+    response = get_working_chat(settings, messages,tools)
     return {"messages": [response]}
