@@ -1,9 +1,9 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import field_validator
+from pydantic import SecretStr
 
 class Settings(BaseSettings):
-    GROQ_API_KEY: str
-    GOOGLE_API_KEY: str
+    GROQ_API_KEY: SecretStr
+    GOOGLE_API_KEY: SecretStr
     GROQ_FALLBACK_MODELS: str 
     GEMINI_FALLBACK_MODEL: str 
     Model_TEMPERATURE: float
@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     MAX_MESSAGES: int
     KEEP_RECENT: int
     local_user: str 
+    tavily_api_key: SecretStr
 
     model_config = SettingsConfigDict(env_file=".env",ignore_extra=True)
 
