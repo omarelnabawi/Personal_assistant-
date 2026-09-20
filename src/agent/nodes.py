@@ -36,7 +36,7 @@ def summarize_if_needed(state: AgentState, settings) -> AgentState:
             Write the summary in the same language the conversation was mostly conducted in:
             {conversation_text}
             """)] 
-    summary_response = get_working_chat(settings, summary_prompt)
+    summary_response = get_working_chat(settings, summary_prompt,tools=None,stage="summarization")
     summary_message = SystemMessage(content=f"Summary of the previous conversation: {summary_response.content}")
 
     delete_messages = [RemoveMessage(id=m.id) for m in old_messages]
@@ -44,7 +44,7 @@ def summarize_if_needed(state: AgentState, settings) -> AgentState:
     # System Message الأصلية (معلومات المستخدم) فضلت زي ما هي، متتلخصش أبدًا
     return {"messages": delete_messages + [summary_message]}
 
-def call_model(state: AgentState, settings,tools) -> AgentState:
+def call_model(state: AgentState, settings,tools,stage="Call Model") -> AgentState:
     messages = state["messages"]
-    response = get_working_chat(settings, messages,tools)
+    response = get_working_chat(settings, messages,tools,stage=stage)
     return {"messages": [response]}
