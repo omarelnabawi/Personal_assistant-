@@ -6,3 +6,7 @@ langchain-tavily==0.2.14
 langgraph==1.2.11
 pydantic==2.13.5
 pydantic-settings==2.15.0
+#================STT================
+sounddevice==0.5.5
+numpy==2.4.6
+soundfile==0.13.1
