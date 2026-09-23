@@ -15,8 +15,9 @@ class Settings(BaseSettings):
     KEEP_RECENT: int
     local_user: str 
     tavily_api_key: SecretStr
+    GROQ_VOICE_MODEL:str
 
-    model_config = SettingsConfigDict(env_file=".env",ignore_extra=True)
+    model_config = SettingsConfigDict(env_file=".env",extra="ignore")
 
     @property
     def fallback_models_list(self) -> list[str]:
