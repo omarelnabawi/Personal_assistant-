@@ -5,23 +5,25 @@ import soundfile as sf
 from groq import Groq
 from datetime import datetime
 
-from helper import get_settings
-from memory import get_user_info
+from helper import get_settings,logger
+from memory import get_user_info,save_user_info,get_or_create_user_id
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 settings = get_settings()
+now = datetime.now()
 
+user_id = get_or_create_user_id()
 
-def record_and_transcribe(user_id: str, conversation_id=None, sample_rate: int = 16000) -> str:
+def record_and_transcribe(user_id: str=user_id, conversation_id=None, sample_rate: int = 16000,stage="Voice recording",model_name=settings.GROQ_VOICE_MODEL) -> str:
     """
     بتسجل صوت من الميك (تبدأ فورًا، وتوقف لما تدوس Enter)،
     تحفظه كملف .wav، وترجع النص المستخرج منه عبر Whisper.
     """
-    now = datetime.now()
-    formatted = now.strftime("%Y-%m-%d %H:%M:%S")    # لو محدش بعت conversation_id صراحة، هات القيمة الحالية من ملف المستخدم مباشرة
-        # (مش من متغيّر بيتحدد وقت تشغيل الشات — ده اللي كان بيسبب مشكلة "فتحلي شات")
+    
+    # لو محدش بعت conversation_id صراحة، هات القيمة الحالية من ملف المستخدم مباشرة
+    # (مش من متغيّر بيتحدد وقت تشغيل الشات — ده اللي كان بيسبب مشكلة "فتحلي شات")
     if conversation_id is None:
-        record = get_user_info(user_id)          # dictionary كامل من memory/
+        record=get_user_info(user_id=user_id)          # dictionary كامل من memory/
         conversation_id = record["conversation_count"]   # وصول بالمفتاح، مش بـ ()
 
     # القايمة دي معمولة *جوه* الدالة، مش برّه خالص —
@@ -47,20 +49,25 @@ def record_and_transcribe(user_id: str, conversation_id=None, sample_rate: int =
     full_recording = np.concatenate(recorded_chunks)
 
     # نجهز مسار الحفظ ونتأكد إن الفولدر موجود
-    files_path = BASE_DIR / "data" / "chats_sounds" / f"{conversation_id}_{formatted}"
+    files_path = BASE_DIR / "data" / "chats_sounds" / f"{conversation_id}_{now.strftime("%d%m%Y_%H%M%S")}"
     files_path.mkdir(parents=True, exist_ok=True)
-
-    wav_path = files_path / "recording.wav"
+    existing_files = list(files_path.glob("recording*.wav"))
+    i = len(existing_files)
+    wav_name=f"recording{i}.wav"
+    wav_path = files_path / wav_name
     sf.write(wav_path, full_recording, sample_rate)
-
     # نبعت الملف لـ Whisper عبر Groq، ونرجع النص المستخرج
     client = Groq(api_key=settings.GROQ_API_KEY.get_secret_value())
     with open(wav_path, "rb") as f:
         transcription = client.audio.transcriptions.create(
             file=f,
-            model="whisper-large-v3",
+            model=model_name,
         )
-
+    logger.info(f"[{stage}] Model Run successfuly : {model_name} (Groq) ✅")
+    logger.debug(f"x_groq['id']:\n**{transcription.x_groq}**")
+    i=+1
+    #print(transcription)
+    #print(type(transcription))
     return transcription.text
 
 
