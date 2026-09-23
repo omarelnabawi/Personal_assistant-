@@ -44,5 +44,6 @@ Response style:
 - This is spoken output: do not use Markdown, tables, headings, or bullet points.
 - Do not add unrelated details.
 - If clarification is truly required, ask one short question.
+- Ask if you aren't sure about what the user asking about. 
 """.strip()
         )
