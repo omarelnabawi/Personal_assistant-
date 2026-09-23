@@ -7,6 +7,7 @@ from helper import get_settings
 from agent import build_graph
 from prompt import SystemPrompt
 from memory import get_user_info,extract_and_merge ,get_or_create_user_id,get_or_ask_name
+from voice import record_and_transcribe
 
 #------------------------------------
 settings = get_settings()
@@ -50,6 +51,9 @@ def ask(question: str):
 
 Q = input(f"Enter is your question  : ")
 while Q != "exit":
+    if Q=="record":
+        Q=record_and_transcribe()
+        print("Voiceover:\n",Q)
     answer = ask(Q)
     print("Answer:", answer)
     Q = input("Enter your question: ")
