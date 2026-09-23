@@ -24,8 +24,9 @@ def _try_groq(settings, formatted_prompt,tools=None,stage="unknown"):
 
             response = chat.invoke(formatted_prompt)
             logger.info(f"[{stage}] Model Run successfuly : {model_name} (Groq) ✅")
-            logger.info(f"Ratio of resoning from the output tokens:\n{response.usage_metadata['output_token_details']['reasoning']/response.usage_metadata['output_tokens']*100}%"  )
-            logger.debug(f"response:\n**{response}**")
+            if response.usage_metadata:
+                logger.info(f"Ratio of resoning from the output tokens:\n{response.usage_metadata['output_token_details']['reasoning']/response.usage_metadata['output_tokens']*100}%"  )
+            #logger.debug(f"response:\n**{response}**")
             return response
         except (BadRequestError, RateLimitError, APIError) as e:
             logger.warning(f"[{stage}] فشل {model_name}: {e}")
